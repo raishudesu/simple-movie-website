@@ -1,3 +1,5 @@
+const moviesContainer = document.getElementById("movies-container");
+
 const API_KEY = "36a67f53faf163e8cc24b63c891d70c0";
 let movieTitle;
 let movieID;
@@ -10,13 +12,13 @@ const getUpcomingMovies = async () => {
 
     const movies = await res.json();
 
-    console.log(movies);
+    return movies.results;
   } catch (error) {
     console.error(error);
   }
 };
 
-getUpcomingMovies();
+// getUpcomingMovies();
 
 const getMovieByName = async () => {
   try {
@@ -60,4 +62,27 @@ const getSimilarMovies = async () => {
   }
 };
 
-const movieCard = () => {};
+const movieCard = (title, backdrop_path) => {
+  return `
+        <div class="movie-card">
+            <img src="http://image.tmdb.org/t/p/w500${backdrop_path}" alt="">
+            <h3>${title}</h3>
+        </div>
+          `;
+};
+
+const displayMovies = async () => {
+  try {
+    const movies = await getUpcomingMovies();
+    console.log(movies);
+    const mappedMovies = movies.map(({ title, backdrop_path }) => {
+      return movieCard(title, backdrop_path);
+    });
+
+    moviesContainer.innerHTML = mappedMovies.join("");
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+displayMovies();
