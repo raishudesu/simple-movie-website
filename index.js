@@ -1,8 +1,10 @@
 const moviesContainer = document.getElementById("movies-container");
+const currentMovieTitle = document.getElementById("movie-title");
 
 const API_KEY = "36a67f53faf163e8cc24b63c891d70c0";
-let movieTitle;
+// let movieTitle;
 let movieID;
+let currentMovie = {};
 
 const getUpcomingMovies = async () => {
   try {
@@ -34,15 +36,15 @@ const getMovieByName = async () => {
   }
 };
 
-const getMovieInfo = async () => {
+const getMovieInfo = async (movieID) => {
   try {
     const res = await fetch(
       `https://api.themoviedb.org/3/movie/${movieID}?api_key=${API_KEY}&language=en-US`
     );
 
-    const moveInfo = await res.json();
+    const movieInfo = await res.json();
 
-    console.log(moveInfo);
+    return movieInfo;
   } catch (error) {
     console.error(error);
   }
@@ -62,11 +64,13 @@ const getSimilarMovies = async () => {
   }
 };
 
-const movieCard = (title, backdrop_path) => {
+const movieCard = (title, backdrop_path, id) => {
   return `
-        <div class="movie-card">
-            <img src="http://image.tmdb.org/t/p/w500${backdrop_path}" alt="">
-            <h3>${title}</h3>
+        <div class="movie-card" onclick="togglePopup(${id})">
+            <div class="movie-card-content">
+              <img src="http://image.tmdb.org/t/p/w500${backdrop_path}" alt=${backdrop_path}>
+              <h3>${title}</h3>
+            </div>
         </div>
           `;
 };
@@ -75,8 +79,8 @@ const displayMovies = async () => {
   try {
     const movies = await getUpcomingMovies();
     console.log(movies);
-    const mappedMovies = movies.map(({ title, backdrop_path }) => {
-      return movieCard(title, backdrop_path);
+    const mappedMovies = movies.map(({ title, backdrop_path, id }) => {
+      return movieCard(title, backdrop_path, id);
     });
 
     moviesContainer.innerHTML = mappedMovies.join("");
@@ -86,3 +90,24 @@ const displayMovies = async () => {
 };
 
 displayMovies();
+
+const togglePopup = async (id) => {
+  const popup = document.getElementById("popup");
+  const overlay = document.getElementById("overlay");
+
+  popup.style.display = "block";
+  overlay.style.display = "block";
+  console.log(id);
+  currentMovie = await getMovieInfo(id);
+
+  currentMovieTitle.textContent = currentMovie.title;
+  console.log(currentMovie);
+};
+
+const closePopup = () => {
+  const popup = document.getElementById("popup");
+  const overlay = document.getElementById("overlay");
+
+  popup.style.display = "none";
+  overlay.style.display = "none";
+};
