@@ -59,3 +59,5 @@ const getSimilarMovies = async () => {
     console.error(error);
   }
 };
+
+const movieCard = () => {};
