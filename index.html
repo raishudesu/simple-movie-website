@@ -12,19 +12,18 @@
     </header>
     <main>
       <section>
-        <!-- <button onclick="togglePopup()">Open Popup</button> -->
-
         <div class="overlay" id="overlay"></div>
 
         <div class="popup" id="popup">
-          <h2 id="movie-title"></h2>
-          <p>This is a simple popup!</p>
-          <button onclick="closePopup()">Close</button>
+          <div id="popup-container"></div>
+          <button onclick="closePopup()" class="close-button">Close</button>
+          <h1>Similar Movies</h1>
+          <div id="similar-movies"></div>
         </div>
-        <div class="search">
+        <form onsubmit="searchSubmit()" class="search">
           <input type="text" class="search-input" placeholder="Search Movie" />
           <button>Search</button>
-        </div>
+        </form>
         <div class="movies-container" id="movies-container"></div>
       </section>
     </main>

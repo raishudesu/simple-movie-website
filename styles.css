@@ -89,3 +89,21 @@ main {
   background: rgba(0, 0, 0, 0.5);
   z-index: 999;
 }
+
+.popup {
+  max-height: 42rem;
+  overflow-y: scroll;
+}
+
+.popup-content,
+#similar-movies {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.close-button {
+  padding: 1rem;
+  background-color: hotpink;
+  border: none;
+  border-radius: 15%;
+}

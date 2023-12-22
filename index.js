@@ -1,5 +1,6 @@
 const moviesContainer = document.getElementById("movies-container");
 const currentMovieTitle = document.getElementById("movie-title");
+const popupContainer = document.getElementById("popup");
 
 const API_KEY = "36a67f53faf163e8cc24b63c891d70c0";
 // let movieTitle;
@@ -50,7 +51,7 @@ const getMovieInfo = async (movieID) => {
   }
 };
 
-const getSimilarMovies = async () => {
+const getSimilarMovies = async (movieID) => {
   try {
     const res = await fetch(
       `https://api.themoviedb.org/3/movie/${movieID}/similar?api_key=${API_KEY}&language=en-US&page=1`
@@ -59,6 +60,7 @@ const getSimilarMovies = async () => {
     const movies = await res.json();
 
     console.log(movies);
+    return movies;
   } catch (error) {
     console.error(error);
   }
@@ -91,16 +93,73 @@ const displayMovies = async () => {
 
 displayMovies();
 
+const searchMovie = async () => {};
+
+const popupContent = (
+  title,
+  overview,
+  popularity,
+  backdrop_path,
+  vote_count,
+  vote_average
+) => {
+  return `
+    <div class="popup-content">
+      <div>
+        <h2>Title:</h2>
+        <h3>${title}</h3>
+
+        
+        <h2>Overview:</h2>
+        <p>${overview}</p> 
+        
+        <h2>Popularity</h2>
+        <h5>${popularity}</h5>
+        
+        <h2>Votes:</h2>
+        <p>${vote_count}</p>
+
+        <h2>Vote average:</h2>
+        <p>${vote_average}</p>
+      </div>
+      <img src="http://image.tmdb.org/t/p/w500${backdrop_path}">
+    </div>
+    
+  `;
+};
+
 const togglePopup = async (id) => {
-  const popup = document.getElementById("popup");
+  const popupContainer = document.getElementById("popup-container");
   const overlay = document.getElementById("overlay");
+  const similiarMoviesContainer = document.getElementById("similar-movies");
 
   popup.style.display = "block";
   overlay.style.display = "block";
   console.log(id);
   currentMovie = await getMovieInfo(id);
 
-  currentMovieTitle.textContent = currentMovie.title;
+  // currentMovieTitle.textContent = currentMovie.title;
+  popupContainer.innerHTML = popupContent(
+    currentMovie.title,
+    currentMovie.overview,
+    currentMovie.popularity,
+    currentMovie.backdrop_path,
+    currentMovie.vote_count,
+    currentMovie.vote_average
+  );
+
+  const similarMovies = await getSimilarMovies(id);
+
+  console.log(similarMovies);
+
+  const mappedMovies = similarMovies.results.map(
+    ({ title, backdrop_path, id }) => {
+      return movieCard(title, backdrop_path, id);
+    }
+  );
+
+  similiarMoviesContainer.innerHTML = mappedMovies.join("");
+
   console.log(currentMovie);
 };
 
