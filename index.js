@@ -1,6 +1,13 @@
 const moviesContainer = document.getElementById("movies-container");
 const currentMovieTitle = document.getElementById("movie-title");
-const popupContainer = document.getElementById("popup");
+const popup = document.getElementById("popup");
+const searchPopupContainer = document.getElementById("search-popup-container");
+const popupContainer = document.getElementById("popup-container");
+const overlay = document.getElementById("overlay");
+const similiarMoviesContainer = document.getElementById("similar-movies");
+const searchInput = document.getElementById("search-input");
+const searchForm = document.getElementById("search-form");
+const searchPopup = document.getElementById("search-popup");
 
 const API_KEY = "36a67f53faf163e8cc24b63c891d70c0";
 // let movieTitle;
@@ -23,14 +30,14 @@ const getUpcomingMovies = async () => {
 
 // getUpcomingMovies();
 
-const getMovieByName = async () => {
+const getMovieByTitle = async (movieTitle) => {
   try {
     const res = await fetch(
       `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${movieTitle}`
     );
 
     const movie = await res.json();
-
+    return movie;
     console.log(movie);
   } catch (error) {
     console.error(error);
@@ -93,7 +100,35 @@ const displayMovies = async () => {
 
 displayMovies();
 
-const searchMovie = async () => {};
+let searchKeys;
+
+searchInput.addEventListener("input", () => {
+  searchKeys = searchInput.value;
+});
+
+// const searchMovie = async () => {
+//   const movie = await getMovieByTitle(searchKeys);
+//   searchPopup.style.display = "block";
+//   overlay.style.display = "block";
+//   searchPopupContainer.innerHTML = movieCard(
+//     movie.results.title,
+//     movie.results.backdrop_path,
+//     movie.results.id
+//   );
+// };
+
+searchForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const movies = await getMovieByTitle(searchKeys);
+  searchPopup.style.display = "block";
+  overlay.style.display = "block";
+
+  const mappedMovies = movies.results.map(({ title, backdrop_path, id }) => {
+    return movieCard(title, backdrop_path, id);
+  });
+  searchPopupContainer.innerHTML = mappedMovies.join("");
+});
 
 const popupContent = (
   title,
@@ -129,16 +164,11 @@ const popupContent = (
 };
 
 const togglePopup = async (id) => {
-  const popupContainer = document.getElementById("popup-container");
-  const overlay = document.getElementById("overlay");
-  const similiarMoviesContainer = document.getElementById("similar-movies");
-
   popup.style.display = "block";
   overlay.style.display = "block";
   console.log(id);
   currentMovie = await getMovieInfo(id);
 
-  // currentMovieTitle.textContent = currentMovie.title;
   popupContainer.innerHTML = popupContent(
     currentMovie.title,
     currentMovie.overview,
@@ -164,9 +194,7 @@ const togglePopup = async (id) => {
 };
 
 const closePopup = () => {
-  const popup = document.getElementById("popup");
-  const overlay = document.getElementById("overlay");
-
   popup.style.display = "none";
+  searchPopup.style.display = "none";
   overlay.style.display = "none";
 };

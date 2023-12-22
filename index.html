@@ -20,8 +20,21 @@
           <h1>Similar Movies</h1>
           <div id="similar-movies"></div>
         </div>
-        <form onsubmit="searchSubmit()" class="search">
-          <input type="text" class="search-input" placeholder="Search Movie" />
+
+        <div class="search-popup" id="search-popup">
+          <h1>Search Results</h1>
+          <button onclick="closePopup()" class="close-button">Close</button>
+          <div id="search-popup-container"></div>
+          <div id="search-results"></div>
+        </div>
+
+        <form id="search-form" class="search">
+          <input
+            type="text"
+            class="search-input"
+            id="search-input"
+            placeholder="Search Movie"
+          />
           <button>Search</button>
         </form>
         <div class="movies-container" id="movies-container"></div>
