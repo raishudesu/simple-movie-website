@@ -195,6 +195,33 @@ const togglePopup = async (id) => {
 
 const closePopup = () => {
   popup.style.display = "none";
-  searchPopup.style.display = "none";
   overlay.style.display = "none";
+};
+
+const closeSearchPopup = () => {
+  searchPopup.style.display = "none";
+};
+
+const getRandomMovie = async () => {
+  try {
+    const movies = await getUpcomingMovies();
+    const randomIndex = Math.floor(Math.random() * movies.length);
+    return movies[randomIndex];
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const showRandomMovie = async () => {
+  try {
+    const randomMovie = await getRandomMovie();
+    if (randomMovie) {
+      const { id } = randomMovie;
+      togglePopup(id);
+    } else {
+      console.log("No movies available.");
+    }
+  } catch (error) {
+    console.error(error);
+  }
 };

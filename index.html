@@ -13,7 +13,6 @@
     <main>
       <section>
         <div class="overlay" id="overlay"></div>
-
         <div class="popup" id="popup">
           <div id="popup-container"></div>
           <button onclick="closePopup()" class="close-button">Close</button>
@@ -23,7 +22,9 @@
 
         <div class="search-popup" id="search-popup">
           <h1>Search Results</h1>
-          <button onclick="closePopup()" class="close-button">Close</button>
+          <button onclick="closeSearchPopup()" class="close-button">
+            Close
+          </button>
           <div id="search-popup-container"></div>
           <div id="search-results"></div>
         </div>
@@ -37,6 +38,7 @@
           />
           <button>Search</button>
         </form>
+        <button onclick="showRandomMovie()">Watch a random movie!</button>
         <div class="movies-container" id="movies-container"></div>
       </section>
     </main>
