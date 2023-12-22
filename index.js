@@ -188,6 +188,7 @@ const closePopup = () => {
 
 const closeSearchPopup = () => {
   searchPopup.style.display = "none";
+  overlay.style.display = "none";
 };
 
 const getRandomMovie = async () => {
