@@ -10,7 +10,6 @@ const searchForm = document.getElementById("search-form");
 const searchPopup = document.getElementById("search-popup");
 
 const API_KEY = "36a67f53faf163e8cc24b63c891d70c0";
-// let movieTitle;
 let movieID;
 let currentMovie = {};
 
@@ -105,17 +104,6 @@ let searchKeys;
 searchInput.addEventListener("input", () => {
   searchKeys = searchInput.value;
 });
-
-// const searchMovie = async () => {
-//   const movie = await getMovieByTitle(searchKeys);
-//   searchPopup.style.display = "block";
-//   overlay.style.display = "block";
-//   searchPopupContainer.innerHTML = movieCard(
-//     movie.results.title,
-//     movie.results.backdrop_path,
-//     movie.results.id
-//   );
-// };
 
 searchForm.addEventListener("submit", async (e) => {
   e.preventDefault();

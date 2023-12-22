@@ -41,7 +41,6 @@ main {
 }
 
 .movies-container {
-  /* border: 2px solid black; */
   margin-top: 1rem;
   display: grid;
   grid-template-columns: auto auto auto;
@@ -51,7 +50,6 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* border: 1px solid black; */
 }
 
 .movie-card-content img {
@@ -62,9 +60,6 @@ main {
 .movie-card-content h3 {
   color: aqua;
 }
-
-/* .movie-card img {
-} */
 
 .popup,
 .search-popup {
@@ -79,7 +74,6 @@ main {
   z-index: 1000;
 }
 
-/* Styles for the overlay */
 .overlay {
   display: none;
   position: fixed;
