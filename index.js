@@ -74,7 +74,7 @@ const getSimilarMovies = async (movieID) => {
 
 const movieCard = (title, backdrop_path, id) => {
   return `
-        <div class="movie-card" onclick="togglePopup(${id})">
+        <div class="movie-card" ondblclick="togglePopup(${id})">
             <div class="movie-card-content">
               <img src="http://image.tmdb.org/t/p/w500${backdrop_path}" alt=${backdrop_path}>
               <h3>${title}</h3>
